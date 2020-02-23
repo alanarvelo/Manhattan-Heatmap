@@ -72,7 +72,7 @@ map_other_config = [
 # the map is set to Manhattan 
 map_options = GMapOptions(lat=40.741, lng=-73.995, map_type="roadmap", zoom=13, styles=json.dumps(map_other_config))
 #importing GMap into a Bokeh figure
-p = gmap("AIzaSyDGO4yOebvVVTEzZtJPWn8ZGkPZ42Agzto", map_options, title="NYC - Product Heatmap", 
+p = gmap("<YOUR_API_KEY>", map_options, title="NYC - Product Heatmap", 
          plot_width=1070, plot_height=800, output_backend="webgl", 
          tools=['pan', 'wheel_zoom', 'reset', 'box_select', 'tap'])
 
