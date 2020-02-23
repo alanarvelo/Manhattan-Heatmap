@@ -1,4 +1,4 @@
-# heatmap_mockup
+# manhattan_heatmap
 A quick & visual representation of the heatmap idea. 
 
 To run this on your local computer:
