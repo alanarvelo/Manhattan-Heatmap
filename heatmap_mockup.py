@@ -2,6 +2,7 @@
 # data handling packages
 import geopandas as gpd
 import json
+import os
 from functools import partial
 
 #graphing packages
@@ -18,10 +19,12 @@ from shapely.geometry import Point, LineString, Polygon
 
 output_file("gmap.html")
 
-
-with open("gmaps_api_key.json") as json_file:
-    gmaps_key = json.load(json_file)["gmaps"]
-
+# try:
+MH_GMAPS_KEY = os.environ["MH_GMAPS_KEY"]
+print("KEY BELOW")
+print(MH_GMAPS_KEY)
+# except:
+#   print("ERROR: GMAPS KEY NOT FOUND")
 
 #____________
 # ---- Data Preparation ----
@@ -75,7 +78,7 @@ map_other_config = [
 # the map is set to Manhattan 
 map_options = GMapOptions(lat=40.741, lng=-73.995, map_type="roadmap", zoom=13, styles=json.dumps(map_other_config))
 #importing GMap into a Bokeh figure
-p = gmap(gmaps_key, map_options, title="Manhattan Heatmap — A Prototype", 
+p = gmap(MH_GMAPS_KEY, map_options, title="Manhattan Heatmap — A Prototype", 
          plot_width=1070, plot_height=800, output_backend="webgl", 
          tools=['pan', 'wheel_zoom', 'reset', 'box_select', 'tap'])
 
