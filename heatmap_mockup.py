@@ -1,6 +1,5 @@
 # ---- Importing Necessary Packages ----
 # data handling packages
-import pandas as pd
 import geopandas as gpd
 import json
 from functools import partial
@@ -20,12 +19,16 @@ from shapely.geometry import Point, LineString, Polygon
 output_file("gmap.html")
 
 
+with open("gmaps_api_key.json") as json_file:
+    gmaps_key = json.load(json_file)["gmaps"]
+
+
 #____________
 # ---- Data Preparation ----
 #____________
 
 # preparing Knotel offices data to place on Manhattan map
-kdf = pd.read_csv("data/nyc_leased_enhanced.csv", index_col=0)
+kdf = gpd.read_file("data/nyc_leased_enhanced.csv", index_col=0)
 # Knotel sometimes has various contracts per building, and information looks convoluted in map
 kdf.drop_duplicates(subset='address', inplace=True)
 # converting office data into Bokeh's native data type
@@ -72,7 +75,7 @@ map_other_config = [
 # the map is set to Manhattan 
 map_options = GMapOptions(lat=40.741, lng=-73.995, map_type="roadmap", zoom=13, styles=json.dumps(map_other_config))
 #importing GMap into a Bokeh figure
-p = gmap("<YOUR_API_KEY>", map_options, title="NYC - Product Heatmap", 
+p = gmap(gmaps_key, map_options, title="Manhattan Heatmap — A Prototype", 
          plot_width=1070, plot_height=800, output_backend="webgl", 
          tools=['pan', 'wheel_zoom', 'reset', 'box_select', 'tap'])
 
@@ -136,8 +139,6 @@ show_tract_toggle = Toggle(label ='Show Census Tracts', active=True, button_type
 def remove_add_tract(active):
     tract_renderer.visible = True if active else False
 show_tract_toggle.on_click(remove_add_tract)
-
-
 
 
 # plotting
