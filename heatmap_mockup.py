@@ -19,12 +19,8 @@ from shapely.geometry import Point, LineString, Polygon
 
 output_file("gmap.html")
 
-# try:
 MH_GMAPS_KEY = os.environ["MH_GMAPS_KEY"]
-print("KEY BELOW")
-print(MH_GMAPS_KEY)
-# except:
-#   print("ERROR: GMAPS KEY NOT FOUND")
+
 
 #____________
 # ---- Data Preparation ----
