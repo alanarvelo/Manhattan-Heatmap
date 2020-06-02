@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 EXPOSE 8080
-CMD [ "bokeh", "serve", "--show", "heatmap_mockup.py"]
+CMD [ "bokeh", "serve", "--show", "--allow-websocket-origin", "*", "heatmap_mockup.py"]
