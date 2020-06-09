@@ -1,9 +1,13 @@
 # ---- Importing Necessary Packages ----
 # data handling packages
+from os.path import dirname, join
 import geopandas as gpd
 import json
 import os
 from functools import partial
+
+from helpers import map_other_config
+
 
 #graphing packages
 from bokeh.io import curdoc
@@ -27,14 +31,14 @@ MH_GMAPS_KEY = os.environ["MH_GMAPS_KEY"]
 #____________
 
 # preparing Knotel offices data to place on Manhattan map
-kdf = gpd.read_file("data/nyc_leased_enhanced.csv", index_col=0)
+kdf = gpd.read_file(join(dirname(__file__), 'data', 'nyc_leased_enhanced.csv'), index_col=0)
 # Knotel sometimes has various contracts per building, and information looks convoluted in map
 kdf.drop_duplicates(subset='address', inplace=True)
 # converting office data into Bokeh's native data type
 knotel_off = ColumnDataSource(data=kdf)
 
 # preparing tract data to divide Manhattan map
-gjb = gpd.read_file("data/nyc_tract_w_mhi.geojson")
+gjb = gpd.read_file(join(dirname(__file__), 'data', 'nyc_tract_w_mhi.geojson'))
 mn = gjb.loc[gjb.COUNTY == u'New York County', :]
 # getting Tract data into GeoJSON data type
 patch_source = GeoJSONDataSource(geojson=mn.to_json())
@@ -44,33 +48,6 @@ patch_source = GeoJSONDataSource(geojson=mn.to_json())
 # ---- Importing & Creating base figure from Google Maps ----
 #____________
 
-# configuration to inactivate common GMap objects like POI, road signs, etc
-map_other_config = [
-    {
-        "featureType": "poi",
-        "elementType": "labels",
-        "stylers": [
-              { "visibility": "off" }
-        ]
-    },
-    {
-    "featureType": "transit",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-    {
-    "featureType": "road",
-    "elementType": "labels.icon",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  }
-]
 # the map is set to Manhattan 
 map_options = GMapOptions(lat=40.741, lng=-73.995, map_type="roadmap", zoom=13, styles=json.dumps(map_other_config))
 #importing GMap into a Bokeh figure
@@ -118,8 +95,6 @@ p.toolbar.active_inspect = [tract_hover, office_hover]
 p.toolbar.active_tap =  "auto"
 p.toolbar.active_scroll = "auto"
 
-
-
 #____________
 # ---- Adding widgets & Interactions to figure
 #____________
@@ -143,3 +118,10 @@ show_tract_toggle.on_click(remove_add_tract)
 # plotting
 layout = row(p, widgetbox(show_office_toggle, show_tract_toggle))
 curdoc().add_root(layout)
+
+# print(2+2)
+# --port 8080 
+# --disable-index
+# --disable-index-redirect
+
+# --allow-websocket-origin=localhost:5006

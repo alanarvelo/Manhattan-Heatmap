@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    reverseproxy:
+        build:
+            context: .
+            dockerfile: reverseproxy.Dockerfile
+        image: reverseproxy_image
+        container_name: reverseproxy_container
+        ports:
+            - 8080:8080
+            - 8081:8081
+        restart: always
+
+    bokeh:
+        # depends_on:
+        #   - reverseproxy
+        build:
+            context: .
+            dockerfile: bokeh_image.Dockerfile
+        image: bokeh_image
+        container_name: bokeh_container
+        environment:
+            - MH_GMAPS_KEY=$MH_GMAPS_KEY
+        volumes:
+            - myapp/:myapp/
+        #   - type: volume
+        #     source: mh-data
+        #     target: myapp/data
+        #     volume:
+        #         nocopy: true
+        # volumes:
+        #     - data-volume:/var/lib/db
+        # volumes:
+        #     - "myapp/:myapp/:r"
+        restart: always
+
+volumes:
+#     # "myapp/:myapp/:r"
+#   myapp:
+#     driver: local
