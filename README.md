@@ -13,6 +13,6 @@ To run this on your local computer:
 
 4. Accept any prompts and when the environemnts finishes installing type ``` conda activate heatmap_mockup_env``` to access it.
 
-5. Now type ```bokeh serve --show heatmap_mockup.py```. A browser window will open and display the mockup.
+5. Now type ```bokeh serve --show myapp```. A browser window will open and display the mockup.
 
 
