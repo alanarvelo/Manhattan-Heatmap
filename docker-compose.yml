@@ -13,8 +13,6 @@ services:
         restart: always
 
     bokeh:
-        # depends_on:
-        #   - reverseproxy
         build:
             context: .
             dockerfile: bokeh_image.Dockerfile
@@ -23,19 +21,14 @@ services:
         environment:
             - MH_GMAPS_KEY=$MH_GMAPS_KEY
         volumes:
-            - myapp/:myapp/
-        #   - type: volume
-        #     source: mh-data
-        #     target: myapp/data
-        #     volume:
-        #         nocopy: true
-        # volumes:
-        #     - data-volume:/var/lib/db
-        # volumes:
-        #     - "myapp/:myapp/:r"
+            - "/Users/alanarvelo/Documents/Manhattan-Heatmap/data:/Manhattan-Heatmap/data:ro"
         restart: always
 
-volumes:
+
+        # depends_on:
+        #   - reverseproxy
+
+# volumes:
 #     # "myapp/:myapp/:r"
-#   myapp:
-#     driver: local
+#   data_folder:
+# #     driver: local

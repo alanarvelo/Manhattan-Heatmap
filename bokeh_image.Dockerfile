@@ -8,11 +8,14 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-# Create myapp directory
-WORKDIR /myapp
+ADD myapp/ myapp/
 
-# ADD myapp myapp/
-
-# EXPOSE 5006
 ENTRYPOINT [ "bokeh", "serve", "myapp", "--port", "5100", "--allow-websocket-origin", "*", "--disable-index-redirect"]
+
+# Create myapp directory
+# WORKDIR /myapp
+
+# ADD data/ data/
+
 # , , "--use-xheaders"
+# ENTRYPOINT ["bash"]

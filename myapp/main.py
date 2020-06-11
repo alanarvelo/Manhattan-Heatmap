@@ -1,6 +1,7 @@
 # ---- Importing Necessary Packages ----
 # data handling packages
-from os.path import dirname, join
+# from os.path import dirname, join
+from pathlib import Path
 import geopandas as gpd
 import json
 import os
@@ -30,15 +31,16 @@ MH_GMAPS_KEY = os.environ["MH_GMAPS_KEY"]
 # ---- Data Preparation ----
 #____________
 
+upper_dir = str(Path(__file__).parent.parent)
 # preparing Knotel offices data to place on Manhattan map
-kdf = gpd.read_file(join(dirname(__file__), 'data', 'nyc_leased_enhanced.csv'), index_col=0)
+kdf = gpd.read_file(upper_dir + '/data' + '/nyc_leased_enhanced.csv', index_col=0)
 # Knotel sometimes has various contracts per building, and information looks convoluted in map
 kdf.drop_duplicates(subset='address', inplace=True)
 # converting office data into Bokeh's native data type
 knotel_off = ColumnDataSource(data=kdf)
 
 # preparing tract data to divide Manhattan map
-gjb = gpd.read_file(join(dirname(__file__), 'data', 'nyc_tract_w_mhi.geojson'))
+gjb = gpd.read_file(upper_dir + '/data' + '/nyc_tract_w_mhi.geojson')
 mn = gjb.loc[gjb.COUNTY == u'New York County', :]
 # getting Tract data into GeoJSON data type
 patch_source = GeoJSONDataSource(geojson=mn.to_json())
@@ -118,10 +120,3 @@ show_tract_toggle.on_click(remove_add_tract)
 # plotting
 layout = row(p, widgetbox(show_office_toggle, show_tract_toggle))
 curdoc().add_root(layout)
-
-# print(2+2)
-# --port 8080 
-# --disable-index
-# --disable-index-redirect
-
-# --allow-websocket-origin=localhost:5006
