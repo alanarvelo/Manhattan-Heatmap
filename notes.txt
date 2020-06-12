@@ -1,0 +1,9 @@
+- Server, Application classes provided in Bokeh may make it more reliable.
+- Flask embedding may make it more manageable
+
+- adding volumes in AWS may make it faster
+- adding reverse proxy may give you more customization, particularly of requests
+
+TODO:
+- Make it Server, Appplication / Flask embed so it does not stop on refresh
+- Add SSL certificate on ports 80 and 443 to make it https and host being alanarvelo.com

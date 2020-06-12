@@ -22,7 +22,7 @@ from bokeh.models.markers import Diamond, Circle
 
 from shapely.geometry import Point, LineString, Polygon
 
-output_file("gmap.html")
+# output_file("gmap.html")
 
 MH_GMAPS_KEY = os.environ["MH_GMAPS_KEY"]
 
