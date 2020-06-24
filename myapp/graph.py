@@ -8,11 +8,9 @@ from functools import partial
 from helpers import map_other_config
 
 #graph packages
-from bokeh.io import curdoc
-from bokeh.io import output_file, show
 from bokeh.models import ColumnDataSource, GMapOptions, GeoJSONDataSource, HoverTool, CheckboxGroup, Button, Toggle
 from bokeh.plotting import figure, gmap
-from bokeh.layouts import widgetbox, row
+from bokeh.layouts import widgetbox, row, column
 from bokeh.models import GeoJSONDataSource
 from bokeh.models.glyphs import Patches
 from bokeh.models.markers import Diamond, Circle
@@ -56,10 +54,10 @@ def prepare_graph():
         knotel_off, patch_source = prepare_data()
 
         # the map is set to Manhattan 
-        map_options = GMapOptions(lat=40.741, lng=-73.995, map_type="roadmap", zoom=13, styles=json.dumps(map_other_config))
+        map_options = GMapOptions(lat=40.737, lng=-73.990, map_type="roadmap", zoom=13, styles=json.dumps(map_other_config))
         #importing GMap into a Bokeh figure
-        p = gmap(MH_GMAPS_KEY, map_options, title="Manhattan Heatmap — A Prototype", 
-                plot_width=1070, plot_height=800, output_backend="webgl", 
+        p = gmap(MH_GMAPS_KEY, map_options, title="Manhattan Heatmap",
+                 plot_width=800, plot_height=650, output_backend="webgl",
                 tools=['pan', 'wheel_zoom', 'reset', 'box_select', 'tap'])
 
         #____________
@@ -99,7 +97,7 @@ def prepare_graph():
         # ---- Adding widgets & Interactions to figure
         #____________
         # creates a Toggle button
-        show_office_toggle = Toggle(label ='Show Leased Bldgs.', active=True, button_type='primary')
+        show_office_toggle = Toggle(label ='Show Building Data', active=True, button_type='primary')
         # callback function for button
         def remove_add_office(active):
             office_renderer.visible = True if active else False
@@ -107,13 +105,14 @@ def prepare_graph():
         show_office_toggle.on_click(remove_add_office)
 
         # same exact logic for tracts. To be combined into a single handler as an improvement!
-        show_tract_toggle = Toggle(label ='Show Census Tracts', active=True, button_type='danger')
+        show_tract_toggle = Toggle(label ='Show Census Blocks', active=True, button_type='danger')
         def remove_add_tract(active):
             tract_renderer.visible = True if active else False
         show_tract_toggle.on_click(remove_add_tract)
 
         # plotting
-        layout = row(p, widgetbox(show_office_toggle, show_tract_toggle))
+        layout = column([p,
+                         row([widgetbox(show_office_toggle), widgetbox(show_tract_toggle)])])
 
         return layout
 
