@@ -8,14 +8,14 @@ body {
     margin: auto;
 }
 .content {
-    margin: 2em;
+    margin: 1.4em;
 }
 .graph {
     width: 85%;
     height: 85%;
 }
 h1 {
-    margin: 1em 0 0 0;
+    margin: 0.25em 0 0 0;
     color: #2e484c;
     font-family: 'Julius Sans One', sans-serif;
     font-size: 1.8em;
@@ -57,10 +57,7 @@ p {
 } */
 
 .footer {
-    padding-top: 15px;
-    padding-bottom: 5px;
-    /* padding-left: 30px; */
-    /* width: 100%; */
+    padding-top: 20px;
     text-align: center;
     color: black;
     font-size: 0.80em;
