@@ -10,6 +10,7 @@ services:
         ports:
             - 8080:8080
             - 8081:8081
+            - 8090:8090
         restart: always
 
     bokeh:
@@ -20,8 +21,8 @@ services:
         container_name: bokeh_container
         environment:
             - MH_GMAPS_KEY=$MH_GMAPS_KEY
-        volumes:
-            - "/Users/alanarvelo/Documents/Manhattan-Heatmap/data:/Manhattan-Heatmap/data:ro"
+        # volumes:
+        #     - "/Users/alanarvelo/Documents/Manhattan-Heatmap/data:/Manhattan-Heatmap/data:ro"
         restart: always
 
 
