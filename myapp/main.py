@@ -28,7 +28,11 @@ def bkapp_page():
         print(request.__dict__)
         script = server_document('http://localhost:5006/bkapp') #headers={"host":"0.0.0.0"}
         return render_template("embed.html", script=script, template="Flask")
-        # return "hello world"
+        return "hello world"
+        # layout = prepare_graph()
+        # curdoc().add_root(layout)
+        # curdoc().title = "Aja Data Lab — Manhattan Heatmap"
+        # return curdoc
     except Exception as err:
         print("ERROR found on bkapp_page:\n{}".format(err))
 
@@ -50,4 +54,4 @@ if __name__ == '__main__':
     print('Multiple connections may block the Bokeh app in this configuration!')
     print('See "flask_gunicorn_embed.py" for one way to run multi-process')
     # app.run(port=8080)
-    app.run(debug=True, host='0.0.0.0', port=8080) # 
+    app.run(debug=True, host='0.0.0.0', port=8080, ssl_context=(curr_dir + '/cert.pem', curr_dir + '/key.pem')) # 
