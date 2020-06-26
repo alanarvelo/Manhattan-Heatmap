@@ -14,5 +14,7 @@ ADD myapp/ myapp/
 
 ADD data/ data/
 
-ENTRYPOINT [ "bokeh", "serve", "myapp", "--port", "5006", "--allow-websocket-origin", "*", "--use-xheaders"
-             "--ssl-certfile", "/path/to/cert.pem", "", ""]
+ENTRYPOINT [ "bokeh", "serve", "myapp", "--port", "5006", "--allow-websocket-origin", "*"]
+
+# "--use-xheaders"
+# "--ssl-certfile", "myapp/ssl/cert.pem", "--ssl-keyfile", "myapp/ssl/key.pem"

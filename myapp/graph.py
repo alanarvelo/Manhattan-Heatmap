@@ -8,9 +8,10 @@ from functools import partial
 from helpers import map_other_config
 
 #graph packages
-from bokeh.models import ColumnDataSource, GMapOptions, GeoJSONDataSource, HoverTool, CheckboxGroup, Button, Toggle
+from bokeh.models import ColumnDataSource, GMapOptions, GeoJSONDataSource, HoverTool, CheckboxGroup, Button, Toggle, Title
+from bokeh.models.map_plots import GMapPlot
 from bokeh.plotting import figure, gmap
-from bokeh.layouts import widgetbox, row, column
+from bokeh.layouts import row, column
 from bokeh.models import GeoJSONDataSource
 from bokeh.models.glyphs import Patches
 from bokeh.models.markers import Diamond, Circle
@@ -52,13 +53,15 @@ def prepare_graph():
         # ---- Importing & Creating base figure from Google Maps ----
         #____________
         knotel_off, patch_source = prepare_data()
+        print("data loaded successfully")
 
         # the map is set to Manhattan 
         map_options = GMapOptions(lat=40.737, lng=-73.990, map_type="roadmap", zoom=13, styles=json.dumps(map_other_config))
         #importing GMap into a Bokeh figure
-        p = gmap(MH_GMAPS_KEY, map_options, title="Manhattan Heatmap",
-                 plot_width=800, plot_height=650, output_backend="webgl",
-                tools=['pan', 'wheel_zoom', 'reset', 'box_select', 'tap'])
+        p = gmap(google_api_key = MH_GMAPS_KEY, map_options = map_options,
+                title = "Manhattan Heatmap", plot_width = 800, plot_height = 650,
+                output_backend = "webgl", tools = ['pan', 'wheel_zoom', 'reset', 'box_select', 'tap'])
+        print("created gmap successfully")
 
         #____________
         # ---- OFFICES GLYPH ----
@@ -72,6 +75,7 @@ def prepare_graph():
         office_hover = HoverTool(renderers=[office_renderer], tooltips=[("Revenue", "@revenue{$00,}"),("Rentable SQF", "@rentable_sqf{00,}"), 
                                                                         ("People density", "@ppl_density"), ("Address", "@formatted_address")])
         p.add_tools(office_hover)
+        print("created office glyphs successfully")
 
         #____________
         # ---- TRACT GLYPH ----
@@ -89,13 +93,14 @@ def prepare_graph():
         # Other figure configurations
         p.yaxis.axis_label = "Latitude"
         p.xaxis.axis_label = "Longitude"
-        p.toolbar.active_inspect = [tract_hover, office_hover]
+        # p.toolbar.active_inspect = [tract_hover, office_hover]
         p.toolbar.active_tap =  "auto"
         p.toolbar.active_scroll = "auto"
+        print("created tract glyphs successfully")
 
-        #____________
-        # ---- Adding widgets & Interactions to figure
-        #____________
+        # #____________
+        # # ---- Adding widgets & Interactions to figure
+        # #____________
         # creates a Toggle button
         show_office_toggle = Toggle(label ='Show Building Data', active=True, button_type='primary')
         # callback function for button
@@ -112,8 +117,9 @@ def prepare_graph():
 
         # plotting
         layout = column([p,
-                         row([widgetbox(show_office_toggle), widgetbox(show_tract_toggle)])])
+                         row([show_office_toggle, show_tract_toggle])]) # , 
 
+        print("added successfully")
         return layout
 
     except Exception as err:
