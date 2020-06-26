@@ -54,4 +54,4 @@ if __name__ == '__main__':
     print('Multiple connections may block the Bokeh app in this configuration!')
     print('See "flask_gunicorn_embed.py" for one way to run multi-process')
     # app.run(port=8080)
-    app.run(debug=True, host='0.0.0.0', port=8080, ssl_context=(curr_dir + '/cert.pem', curr_dir + '/key.pem')) # 
+    app.run(debug=True, host='0.0.0.0', port=8080) # ssl_context=(curr_dir + '/cert.pem', curr_dir + '/key.pem') -p 5006:5006 -e MH_GMAPS_KEY=AIzaSyA0aGEr1BTCddZTgKgVf5vYZbmdDfpIGg0
